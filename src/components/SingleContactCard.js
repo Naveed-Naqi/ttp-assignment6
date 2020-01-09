@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -20,22 +20,44 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SingleContactCard({city, state, lat, long, pop}) {
-  const classes = useStyles();
 
-  return (
-    <Card className={classes.card} variant="outlined">
-      <CardContent>
-        <Typography variant="h5" component="h2" className={classes.pos}>
-            {city + ", " + state}
-        </Typography>
-        <Typography className={classes.pos} >
-            Location: {lat + ", " + long}
-        </Typography>
-        <Typography variant="body2" component="p">
-            Estimated Population: {pop}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+
+export default function SingleContactCard({city, state, lat, long, pop, variant, zipcode}) {
+    const classes = useStyles();
+
+    const determineDisplay = (variant) => {
+        if(variant === "zipcode") {
+            return (
+                <Card className={classes.card} variant="outlined">
+                    <CardContent>
+                        <Typography variant="h5" component="h2" className={classes.pos}>
+                            {city + ", " + state}
+                        </Typography>
+                        <Typography className={classes.pos} >
+                            Location: {lat + ", " + long}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                            Estimated Population: {pop}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            );
+        } else {
+            return (
+                <Card className={classes.card} variant="outlined">
+                    <CardContent>
+                        <Typography variant="h5" component="h2">
+                            {zipcode}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            );
+        }
+    }
+
+    return (
+        <Fragment>
+            {determineDisplay(variant)}
+        </Fragment>
+    );
 }

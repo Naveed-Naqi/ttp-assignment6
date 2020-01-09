@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 import axios from "axios";
 import SingleContactCard from './SingleContactCard';
 
-export default class ZipCode extends Component {
+export default class City extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            zipcode: "",
-            data: [],
-            0: ""
+            city: "",
+            data: []
         };
     } 
 
@@ -20,7 +19,7 @@ export default class ZipCode extends Component {
         this.setState({
             [event.target.id]: event.target.value
         }, () => {
-            axios.get(`http://ctp-zip-api.herokuapp.com/zip/` + this.state.zipcode)
+            axios.get(`http://ctp-zip-api.herokuapp.com/city/` + this.state.city.toUpperCase())
             .then(response => this.setState({data: response.data}))
             .catch(err => this.setState({data: []}))
         });
@@ -38,13 +37,8 @@ export default class ZipCode extends Component {
                     {this.state.data.map( (elem) => {
                         return (
                             <SingleContactCard
-                                key={elem.City+elem.Lat+elem.Long}
-                                city={elem.City}
-                                state={elem.State}
-                                lat={elem.Lat}
-                                long={elem.Long}
-                                pop={elem.EstimatedPopulation}
-                                variant="zipcode"
+                                zipcode={elem}
+                                variant="cities"
                             ></SingleContactCard>
                         );
                     })}
@@ -56,13 +50,13 @@ export default class ZipCode extends Component {
 
     render() {
 
-        let citiesDisplay = this.determineDisplay();
+        let zipcodesDisplay = this.determineDisplay();
 
         return (
             <div>
-                <h1>Zip Code</h1>
-                <input id="zipcode" type="text" placeholder="zip code" onChange={this.handleChange}></input>
-                {citiesDisplay}
+                <h1>Cities</h1>
+                <input id="city" type="text" placeholder="City" onChange={this.handleChange}></input>
+                {zipcodesDisplay}
             </div>
         )
     }
