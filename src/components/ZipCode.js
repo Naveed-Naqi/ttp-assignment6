@@ -9,8 +9,7 @@ export default class ZipCode extends Component {
 
         this.state = {
             zipcode: "",
-            data: [],
-            0: ""
+            data: []
         };
     } 
 
@@ -28,7 +27,7 @@ export default class ZipCode extends Component {
 
     determineDisplay = () => {
 
-        if(Object.keys(this.state.data).length === 0) {
+        if(this.state.data.length === 0) {
             return (
                 <h1>Nothing Found</h1>
             );
